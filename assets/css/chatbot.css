@@ -1,0 +1,92 @@
+/* #chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+  
+  #chat-toggle {
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 18px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  #chat-window {
+    display: none;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  
+  #chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
+  
+  #chat-input {
+    display: flex;
+    border-top: 1px solid #ccc;
+  }
+  
+  #chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  #chat-input button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+   */
+
+   .fixed-panel {
+    min-height: 400px;
+    max-height: 400px;
+    background-color: #19313c;
+    color: white;
+    overflow: auto;
+  }
+  .panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 6px solid transparent;
+    border-radius: 25px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  }
+  .panel-info {
+    border-color: #0c2735;
+  }
+  .panel-info > .panel-heading {
+    color: white;
+    background-color: #0c2735;
+    border-color: #0c2735;
+  }
+  .panel-footer {
+    padding: 10px 15px;
+    background-color: #0c2735;
+    border-top: 1px solid #0c2735;
+  }
+  body {
+    /* your gradient background… */
+  }
+  

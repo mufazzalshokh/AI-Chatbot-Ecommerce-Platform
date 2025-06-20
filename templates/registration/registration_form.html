@@ -1,0 +1,212 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #f3f4f6;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --danger: #ef4444;
+    }
+    
+    body {
+        background-color: #f8fafc;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .form-block {
+        background: white;
+        max-width: 420px;
+        width: 100%;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e2e8f0;
+    }
+    
+    .form-block h3 {
+        color: var(--dark);
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    .form-group label {
+        display: block;
+        color: var(--dark);
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background-color: var(--light);
+        transition: all 0.3s;
+        font-size: 0.875rem;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    
+    .form-control::placeholder {
+        color: #9ca3af;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+    
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+    }
+    
+    .forgot-pass {
+        color: var(--primary);
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .forgot-pass:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+    
+    .mb-5 {
+        margin-bottom: 1.25rem;
+    }
+    
+    .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .float-right {
+        float: right;
+    }
+    
+    .text-center {
+        text-align: center;
+    }
+    
+    .text-uppercase {
+        text-transform: uppercase;
+    }
+    
+    /* Password strength indicator */
+    .password-strength {
+        margin-top: 0.5rem;
+        height: 4px;
+        background: #e2e8f0;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    
+    .password-strength-bar {
+        height: 100%;
+        width: 0;
+        background: #ef4444;
+        transition: width 0.3s, background 0.3s;
+    }
+</style>
+
+<div class="form-block mx-auto">
+    <div class="text-center mb-5">
+        <h3 class="text-uppercase">Create Account</h3>
+    </div>
+    <form method="post" action="{% url 'django_registration_register' %}">
+        {% csrf_token %}
+        <div class="form-group first">
+            <label for="username">Username</label>
+            <input name="username" type="text" class="form-control" placeholder="your-username" id="username" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input name="email" type="email" class="form-control" placeholder="your-email@gmail.com" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password1">Password</label>
+            <input name="password1" type="password" class="form-control" placeholder="Create Password" id="password1" required>
+            <div class="password-strength">
+                <div class="password-strength-bar" id="password-strength-bar"></div>
+            </div>
+        </div>
+        <div class="form-group last mb-3">
+            <label for="password2">Confirm Password</label>
+            <input name="password2" type="password" class="form-control" placeholder="Repeat Password" id="password2" required>
+        </div>
+        
+        <div class="mb-5 align-items-center">
+            <a class="forgot-pass float-right" href="{% url 'login' %}">Already have an account? Sign in</a>
+        </div>
+
+        <input type="submit" value="Sign up" class="btn btn-block py-2 btn-primary">
+    </form>
+</div>
+
+<script>
+    // Simple password strength indicator
+    document.getElementById('password1').addEventListener('input', function(e) {
+        const password = e.target.value;
+        const strengthBar = document.getElementById('password-strength-bar');
+        let strength = 0;
+        
+        if (password.length > 0) strength += 20;
+        if (password.length >= 8) strength += 30;
+        if (/[A-Z]/.test(password)) strength += 15;
+        if (/[0-9]/.test(password)) strength += 15;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+        
+        strengthBar.style.width = strength + '%';
+        
+        if (strength < 40) {
+            strengthBar.style.backgroundColor = '#ef4444'; // red
+        } else if (strength < 70) {
+            strengthBar.style.backgroundColor = '#f59e0b'; // amber
+        } else {
+            strengthBar.style.backgroundColor = '#10b981'; // emerald
+        }
+    });
+</script>
+{% endblock %}

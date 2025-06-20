@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with AI</title>
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('message').value;
+            const response = await fetch('/chatbot/ask/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ message: userInput })
+            });
+            const data = await response.json();
+            document.getElementById('response').innerText = data.response || data.error;
+        }
+    </script>
+</head>
+<body>
+    <h2>Ask the Chatbot</h2>
+    <input type="text" id="message" placeholder="Type your question">
+    <button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
+</body>
+</html>
